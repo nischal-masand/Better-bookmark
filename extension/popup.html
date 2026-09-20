@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      :root {
+        color-scheme: dark light;
+      }
+      body {
+        width: 250px;
+        margin: 0;
+        padding: 14px;
+        font:
+          13px/1.5 system-ui,
+          'Segoe UI',
+          sans-serif;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 13px;
+      }
+      p {
+        margin: 0 0 10px;
+        opacity: 0.75;
+        font-size: 12px;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 99px;
+        background: #888;
+        flex: none;
+      }
+      .ok {
+        background: #34d399;
+      }
+      .bad {
+        background: #f87171;
+      }
+      a {
+        color: inherit;
+      }
+      button {
+        margin-top: 10px;
+        width: 100%;
+        padding: 6px;
+        font: inherit;
+        cursor: pointer;
+        border-radius: 7px;
+        border: 1px solid rgb(128 128 128 / 0.4);
+        background: transparent;
+        color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Better Bookmark Sync</h1>
+    <p>Applies deletes and moves made in your local library to Chrome.</p>
+    <div class="row"><span class="dot" id="dot"></span><span id="state">Checking…</span></div>
+    <button id="sync">Apply pending changes now</button>
+    <script src="popup.js"></script>
+  </body>
+</html>

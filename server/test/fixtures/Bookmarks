@@ -1,0 +1,191 @@
+{
+   "checksum": "7161405259d237072b5fa590f8fcc8f7",
+   "roots": {
+      "bookmark_bar": {
+         "children": [
+            {
+               "date_added": "13300000000000000",
+               "date_last_used": "0",
+               "guid": "b8d328fe-9d84-4e54-8008-63f102eb1243",
+               "id": "100",
+               "name": "GitHub",
+               "type": "url",
+               "url": "https://github.com/"
+            },
+            {
+               "date_added": "13300000001000000",
+               "date_last_used": "0",
+               "guid": "4388fc95-c1a9-4f04-811f-1cf0637ae349",
+               "id": "101",
+               "name": "Wikipedia",
+               "type": "url",
+               "url": "https://www.wikipedia.org/"
+            },
+            {
+               "date_added": "13300000002000000",
+               "date_last_used": "0",
+               "guid": "db93b635-9032-452c-8b11-6ef7a53d8e80",
+               "id": "102",
+               "name": "Hacker News",
+               "type": "url",
+               "url": "https://news.ycombinator.com/"
+            },
+            {
+               "date_added": "13300000003000000",
+               "date_last_used": "0",
+               "guid": "14b97194-6cea-4373-8efc-e4c12a061486",
+               "id": "103",
+               "name": "MDN Web Docs",
+               "type": "url",
+               "url": "https://developer.mozilla.org/"
+            },
+            {
+               "children": [
+                  {
+                     "date_added": "13300000004000000",
+                     "date_last_used": "0",
+                     "guid": "7fb0dd16-3ef4-4ba5-888c-b3c13404a0d4",
+                     "id": "104",
+                     "name": "Julia Evans",
+                     "type": "url",
+                     "url": "https://jvns.ca/"
+                  },
+                  {
+                     "date_added": "13300000005000000",
+                     "date_last_used": "0",
+                     "guid": "f0ae92ab-e4d1-41cb-890d-aa2fec6d8509",
+                     "id": "105",
+                     "name": "Dan Luu",
+                     "type": "url",
+                     "url": "https://danluu.com/"
+                  },
+                  {
+                     "date_added": "13300000006000000",
+                     "date_last_used": "0",
+                     "guid": "a3f8154b-1caf-460c-87c6-1cd656cd920f",
+                     "id": "106",
+                     "name": "Simon Willison",
+                     "type": "url",
+                     "url": "https://simonwillison.net/"
+                  },
+                  {
+                     "children": [
+                        {
+                           "date_added": "13300000007000000",
+                           "date_last_used": "0",
+                           "guid": "aff60585-d6cb-4181-87e5-cfa7ef0427d3",
+                           "id": "107",
+                           "name": "Refactoring UI",
+                           "type": "url",
+                           "url": "https://www.refactoringui.com/"
+                        },
+                        {
+                           "date_added": "13300000008000000",
+                           "date_last_used": "0",
+                           "guid": "c1782994-09dd-4d4e-80ad-bd188a57ba55",
+                           "id": "108",
+                           "name": "Type Scale",
+                           "type": "url",
+                           "url": "https://typescale.com/"
+                        }
+                     ],
+                     "date_added": "13300000009000000",
+                     "date_modified": "13300000010000000",
+                     "guid": "21743106-c513-4d70-8bee-e7aaf20e2ff2",
+                     "id": "109",
+                     "name": "Design",
+                     "type": "folder"
+                  }
+               ],
+               "date_added": "13300000011000000",
+               "date_modified": "13300000012000000",
+               "guid": "cc2c9a48-0475-453e-88ca-1fc5fe725109",
+               "id": "110",
+               "name": "Reading",
+               "type": "folder"
+            },
+            {
+               "children": [
+                  {
+                     "date_added": "13300000013000000",
+                     "date_last_used": "0",
+                     "guid": "2d9163e1-19e7-403c-81d6-75b535a1ce96",
+                     "id": "111",
+                     "name": "SQLite",
+                     "type": "url",
+                     "url": "https://www.sqlite.org/"
+                  },
+                  {
+                     "date_added": "13300000014000000",
+                     "date_last_used": "0",
+                     "guid": "62f79936-0467-4e0e-8d6b-66be899d33b0",
+                     "id": "112",
+                     "name": "Vite",
+                     "type": "url",
+                     "url": "https://vite.dev/"
+                  },
+                  {
+                     "date_added": "13300000015000000",
+                     "date_last_used": "0",
+                     "guid": "5f087d5a-aa7c-4dae-87a3-8516b6d00365",
+                     "id": "113",
+                     "name": "Fastify",
+                     "type": "url",
+                     "url": "https://fastify.dev/"
+                  }
+               ],
+               "date_added": "13300000016000000",
+               "date_modified": "13300000017000000",
+               "guid": "061db0f6-272f-4df1-8536-95a16947211a",
+               "id": "114",
+               "name": "Dev Tools",
+               "type": "folder"
+            }
+         ],
+         "date_added": "13300000000000000",
+         "date_modified": "13300000018000000",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [
+            {
+               "date_added": "13300000018000000",
+               "date_last_used": "0",
+               "guid": "4fe80b94-80c2-4aa2-8ee8-bb6af71f6051",
+               "id": "115",
+               "name": "Rust Book",
+               "type": "url",
+               "url": "https://doc.rust-lang.org/book/"
+            },
+            {
+               "date_added": "13300000019000000",
+               "date_last_used": "0",
+               "guid": "a9e89428-6d0a-4c6b-8031-6dc8b7955d40",
+               "id": "116",
+               "name": "Nginx Docs",
+               "type": "url",
+               "url": "https://nginx.org/en/docs/"
+            }
+         ],
+         "date_added": "13300000000000000",
+         "date_modified": "13300000020000000",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [],
+         "date_added": "13300000000000000",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

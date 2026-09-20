@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest something the app should do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do
+      description: The problem you are hitting, rather than the solution you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you would like to happen
+
+  - type: markdown
+    attributes:
+      value: |
+        A reminder on scope: this app is deliberately local-only — no accounts, no telemetry,
+        no third-party services, and the only outbound requests are to the bookmarked sites
+        themselves. Ideas that fit inside that are much more likely to land.

@@ -1,0 +1,6 @@
+node_modules/
+data/
+web/dist/
+docs/images/
+package-lock.json
+server/test/fixtures/
