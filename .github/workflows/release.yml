@@ -1,9 +1,16 @@
 # Publishes to npm when a version tag is pushed.
 #
-# Before the first release, add an `NPM_TOKEN` repository secret
-# (Settings -> Secrets and variables -> Actions) holding an npm
-# *automation* token. Without it the publish step fails with a
-# confusing 401 after everything else has passed.
+# Uses npm trusted publishing: npm trusts this workflow directly over OIDC,
+# so there is no token to create, store or rotate. It is configured on
+# npmjs.com under the package's Settings -> Trusted Publisher -> GitHub
+# Actions, with:
+#   Organization or user   nischal-masand
+#   Repository             Better-bookmark
+#   Workflow filename      release.yml
+#
+# The package has to exist on npm before a trusted publisher can be added,
+# so the very first version is published by hand (`npm login`, then
+# `npm publish`). Every release after that goes through here.
 #
 # To release: bump "version" in package.json, commit, then
 #   git tag v1.2.3 && git push origin v1.2.3
@@ -16,7 +23,7 @@ on:
 
 permissions:
   contents: write # create the GitHub Release
-  id-token: write # npm provenance
+  id-token: write # trusted publishing (OIDC) and provenance
 
 jobs:
   publish:
@@ -29,6 +36,9 @@ jobs:
           node-version: '22'
           cache: npm
           registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm 11.5.1+, newer than what Node 22 bundles.
+      - run: npm install -g npm@latest
 
       - run: npm ci
 
@@ -44,11 +54,10 @@ jobs:
           fi
 
       # prepublishOnly runs typecheck, tests, build and the bundle smoke test,
-      # so nothing reaches npm that would not pass CI.
+      # so nothing reaches npm that would not pass CI. Provenance is automatic
+      # under trusted publishing.
       - name: Publish to npm
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
 
       - name: Create GitHub Release
         run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes

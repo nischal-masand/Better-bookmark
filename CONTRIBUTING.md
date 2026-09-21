@@ -114,7 +114,9 @@ The `Release` workflow checks the tag matches `package.json`, then `npm publish`
 typecheck, tests, build and the smoke test through `prepublishOnly` before anything is uploaded,
 and a GitHub Release is created with generated notes.
 
-It needs an `NPM_TOKEN` repository secret (an npm _automation_ token) to exist first.
+Publishing uses npm trusted publishing, so there is no token secret: the package on npmjs.com
+trusts `release.yml` in this repository directly. That link is set under the package's
+**Settings → Trusted Publisher** on npmjs.com.
 
 If the extension changes, bump `version` in `extension/manifest.json` too — it is reported to
 the server and shown in Settings, which is how you tell which copy a user has loaded.

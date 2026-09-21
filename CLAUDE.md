@@ -120,4 +120,4 @@ Published to npm as `better-bookmark`; `npx better-bookmark` is the primary inst
 - `SCHEMA_PATH` points at `dist/server/schema.sql` when packaged; the build copies it there.
 - `npm run smoke` is the only check that exercises the bundle rather than the source. It asserts packaged mode is actually on by checking the extension path lands in the data dir. CI runs it on all three OSes; `prepublishOnly` runs it before any publish.
 
-Releases: bump `package.json` version, push a `vX.Y.Z` tag; `.github/workflows/release.yml` publishes with provenance. It needs an `NPM_TOKEN` repo secret.
+Releases: bump `package.json` version, push a `vX.Y.Z` tag; `.github/workflows/release.yml` publishes via npm trusted publishing (OIDC, no token secret; configured on npmjs.com under the package's Settings → Trusted Publisher). Provenance is automatic.
