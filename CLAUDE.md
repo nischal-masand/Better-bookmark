@@ -114,7 +114,7 @@ Published to npm as `better-bookmark`; `npx better-bookmark` is the primary inst
 
 - `scripts/build-server.mjs` bundles the server with esbuild. `better-sqlite3` and `sharp` are **external** — they carry native binaries npm must pick per OS/CPU at install time. They are the only runtime `dependencies`; everything else is `devDependencies` because it is either bundled into `dist/server` or compiled into `web/dist`. A new pure-JS runtime import therefore goes in `devDependencies`, not `dependencies`. A new native one goes in both `EXTERNAL` and `dependencies`.
 - The build stamps `process.env.BB_PACKAGED = '1'` via esbuild `define`. `config.ts` keys two things off it, **both because `npx` runs out of npm's cache, which npm prunes on its own schedule**:
-  - `DATA_DIR` defaults to the OS per-user folder (`%APPDATA%etter-bookmark`, `~/Library/Application Support/better-bookmark`, `$XDG_DATA_HOME` or `~/.local/share/better-bookmark`) instead of `ROOT/data`. A checkout keeps `./data`.
+  - `DATA_DIR` defaults to the OS per-user folder (`%APPDATA%\better-bookmark`, `~/Library/Application Support/better-bookmark`, `$XDG_DATA_HOME` or `~/.local/share/better-bookmark`) instead of `ROOT/data`. A checkout keeps `./data`.
   - `EXTENSION_DIR` is a copy in `DATA_DIR/extension`, refreshed at every boot by `syncPackagedExtension()`. Chrome reads a load-unpacked extension from disk on every launch, so the path shown to users must outlive the cache.
 - `ROOT` is found by walking up to the `package.json` named `better-bookmark`, not by counting directories — the hop count differs between `server/src/config.ts` and `dist/server/index.js`.
 - `SCHEMA_PATH` points at `dist/server/schema.sql` when packaged; the build copies it there.
