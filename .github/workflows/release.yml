@@ -1,0 +1,56 @@
+# Publishes to npm when a version tag is pushed.
+#
+# Before the first release, add an `NPM_TOKEN` repository secret
+# (Settings -> Secrets and variables -> Actions) holding an npm
+# *automation* token. Without it the publish step fails with a
+# confusing 401 after everything else has passed.
+#
+# To release: bump "version" in package.json, commit, then
+#   git tag v1.2.3 && git push origin v1.2.3
+
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write # create the GitHub Release
+  id-token: write # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - run: npm ci
+
+      # A tag that disagrees with package.json would publish the wrong
+      # version under the right name. Refuse rather than guess.
+      - name: Check the tag matches package.json
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require('./package.json').version")"
+          if [ "$tag" != "$pkg" ]; then
+            echo "Tag v$tag does not match package.json version $pkg"
+            exit 1
+          fi
+
+      # prepublishOnly runs typecheck, tests, build and the bundle smoke test,
+      # so nothing reaches npm that would not pass CI.
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
