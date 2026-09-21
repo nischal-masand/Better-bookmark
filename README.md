@@ -159,7 +159,9 @@ Nothing is lost either way. While a change is waiting, a banner at the top of th
 2. Turn on **Developer mode** (top right)
 3. **Load unpacked** → pick the extension folder
 
-You do not need to go looking for that folder: the banner shows its exact path with a copy button, and **Settings** shows a green dot once the extension connects. Installed through `npx`, it lives in the data folder (for example `%APPDATA%etter-bookmarkextension`), copied there on every start so it survives npm clearing its cache and stays current when you upgrade; from a checkout it is `extension/` in the project.
+You do not need to go looking for that folder: the banner shows its exact path with a copy button, and **Settings** shows a green dot once the extension connects. Installed through `npx`, it lives in the data folder (for example `%APPDATA%\better-bookmark\extension`), copied there on every start so it survives npm clearing its cache and stays current when you upgrade; from a checkout it is `extension/` in the project.
+
+Once installed, the extension's bookmark icon in Chrome's toolbar is also the quickest way in: click it and hit **Open library** (it jumps to the library tab if one is already open). Underneath, a single line shows whether Chrome and the library are in sync, with a **Sync now** link that pushes any waiting changes to Chrome and re-reads Chrome's bookmarks.
 
 ### Apply now — the no-extension route
 

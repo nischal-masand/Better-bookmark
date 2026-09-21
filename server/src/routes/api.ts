@@ -501,9 +501,17 @@ export async function apiRoutes(app: FastifyInstance): Promise<void> {
     return { ok: true }
   })
 
+  /** Everything the extension popup shows, in the one request it makes. */
   app.get('/api/ext/hello', (req) => {
     noteExtensionSeen((req.query as { v?: string }).v)
-    return { ok: true, app: 'better-bookmark', pending: pendingCount() }
+    return {
+      ok: true,
+      app: 'better-bookmark',
+      pending: pendingCount(),
+      failed: failedCount(),
+      bookmarks: libraryCounts().visible,
+      lastSyncAt: Number(getSetting('last_sync_at', '0')) || null,
+    }
   })
 
   app.get('/api/ops', () => ({

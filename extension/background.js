@@ -1,5 +1,6 @@
 /**
- * Better Bookmark Sync — the only component that writes to Chrome.
+ * Better Bookmark extension — the only component that writes to Chrome.
+ * (Its toolbar popup, popup.html, is the everyday way into the library.)
  *
  * The app server keeps a queue of changes you made in the library (deletes and
  * moves). This drains that queue through the chrome.bookmarks API, which is the

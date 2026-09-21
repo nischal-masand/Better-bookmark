@@ -151,8 +151,10 @@ Open the failing job under GitHub → **Actions**. The smoke test step prints th
 `data/` holds the maintainer's real bookmark database and cached images. `.gitignore` excludes it, along with `web/dist/`, `dist/`, `node_modules/` and `*.tgz`. Before any public push, this must print nothing:
 
 ```bash
-git ls-files | grep -Ei '(^|/)data/|\.db|thumbs/|icons/'
+git ls-files | grep -Ei '(^|/)data/|\.db|thumbs/|icons/' | grep -v '^extension/icons/'
 ```
+
+`extension/icons/` is the extension's own toolbar icon, not cached site icons, so it is the one `icons/` folder allowed through.
 
 The npm package is limited by the `files` list in `package.json` to `bin/`, `dist/`, `web/dist/` and `extension/`, plus the README, license and `package.json`. Check with `npm pack --dry-run` before publishing by hand.
 
@@ -161,6 +163,7 @@ The npm package is limited by the `files` list in `package.json` to `bin/`, `dis
 - **2026-09-21: v1.0 public.** Git repository created; MIT license, public `package.json` metadata, tests switched to a checked-in sample file, CI on Windows, macOS and Linux, Prettier, `CONTRIBUTING.md`, `SECURITY.md`, issue templates, README screenshots from a demo library. Pushed to GitHub.
 - **2026-09-21: v1.1, one-command install.** Server bundle, `npx better-bookmark` entry point, per-user data folder, extension copy, bundle smoke test, release workflow. Merged through pull request #1 with all checks green.
 - **2026-09-21: npm.** npm account created with 2FA; version 1.1.0 published by hand; trusted publisher connected to `release.yml`; publishing access set to the strictest option.
+- **2026-09-21: extension 1.1.0.** The toolbar button became the way into the library: an **Open library** button first, sync status and a **Sync now** link underneath. Renamed from "Better Bookmark Sync" to "Better Bookmark" and given a bookmark icon. Not yet in an npm release.
 
 ## Not done yet / ideas
 
