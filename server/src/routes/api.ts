@@ -1,8 +1,7 @@
 import type { FastifyInstance } from 'fastify'
 import crypto from 'node:crypto'
-import path from 'node:path'
 import { z } from 'zod'
-import { ROOT } from '../config.ts'
+import { EXTENSION_DIR } from '../config.ts'
 import { db, getSetting, setSetting } from '../db/index.ts'
 import { bus } from '../events.ts'
 import {
@@ -513,7 +512,7 @@ export async function apiRoutes(app: FastifyInstance): Promise<void> {
     failures: failedOpDetails(),
     extension: extensionStatus(),
     // Shown verbatim in the install instructions, so it has to be the real path.
-    extensionPath: path.join(ROOT, 'extension'),
+    extensionPath: EXTENSION_DIR,
   }))
 
   /** Whether the no-extension path is usable right now. */

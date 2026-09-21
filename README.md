@@ -11,27 +11,43 @@ A self-hosted bookmark manager that mirrors your Chrome bookmarks — folder str
 
 ## Quick start
 
-You need **Node 20.11 or newer** and Chrome. Installing dependencies takes about 250 MB.
+You need **Node 20.11 or newer** and Chrome. Then:
+
+```bash
+npx better-bookmark
+```
+
+and open **http://127.0.0.1:8765**. That is the whole install — no clone, no build. `Ctrl+C` stops it; running the same command again starts it with your library intact. `npx better-bookmark --help` lists the options.
+
+The first launch imports your Chrome bookmarks and starts fetching previews in the background — the grid fills in live, no refresh needed. A library of ~240 bookmarks takes a couple of minutes for the whole pass; larger ones scale roughly linearly, four pages at a time.
+
+Runs on Windows, macOS and Linux, from the same package.
+
+### Where your library lives
+
+One SQLite file plus cached thumbnails and icons, in your per-user data folder:
+
+| OS      | Folder                                                 |
+| ------- | ------------------------------------------------------ |
+| Windows | `%APPDATA%\better-bookmark`                            |
+| macOS   | `~/Library/Application Support/better-bookmark`        |
+| Linux   | `~/.local/share/better-bookmark` (or `$XDG_DATA_HOME`) |
+
+Copy the folder to back it up; delete it for a clean slate. It is deliberately _not_ stored next to the program: `npx` runs from npm's cache, which npm clears on its own schedule, and your tags and notes should not go with it. `BB_DATA_DIR` overrides the location.
+
+### Running from source
+
+To work on the code, or to run it without npm's registry in the loop:
 
 ```bash
 git clone https://github.com/nischal-masand/Better-bookmark.git
 cd Better-bookmark
 npm install
-```
-
-```bash
 npm run build
-```
-
-```bash
 npm start
 ```
 
-Then open **http://127.0.0.1:8765**.
-
-The first launch imports your Chrome bookmarks and starts fetching previews in the background — the grid fills in live, no refresh needed. A library of ~240 bookmarks takes a couple of minutes for the whole pass; larger ones scale roughly linearly, four pages at a time.
-
-Runs on Windows, macOS and Linux. To work on the code instead, `npm run dev` runs the API on 8765 and Vite on **http://localhost:5173** with hot reload.
+Installing the dev dependencies takes about 250 MB. A checkout keeps its library in `./data` inside the project rather than the per-user folder above. `npm run dev` runs the API on 8765 and Vite on **http://localhost:5173** with hot reload.
 
 ---
 
@@ -141,9 +157,9 @@ Nothing is lost either way. While a change is waiting, a banner at the top of th
 
 1. Open `chrome://extensions`
 2. Turn on **Developer mode** (top right)
-3. **Load unpacked** → pick the `extension` folder in this project
+3. **Load unpacked** → pick the extension folder
 
-The banner shows the exact path with a copy button, and **Settings** shows a green dot once it connects.
+You do not need to go looking for that folder: the banner shows its exact path with a copy button, and **Settings** shows a green dot once the extension connects. Installed through `npx`, it lives in the data folder (for example `%APPDATA%etter-bookmarkextension`), copied there on every start so it survives npm clearing its cache and stays current when you upgrade; from a checkout it is `extension/` in the project.
 
 ### Apply now — the no-extension route
 
@@ -180,7 +196,7 @@ This is the whole point of the project, so it is worth being precise:
 - The **only** outbound requests are to the bookmarked sites themselves, to read their title, preview image and icon. There is no favicon proxy, no metadata service, no telemetry, no account, no CDN — a favicon service would otherwise be handed your entire bookmark list one URL at a time.
 - Fonts are the ones already on your system; the built bundle contains no external URLs.
 - **Settings → Pause fetching previews** stops all outbound traffic while still syncing from Chrome. **Never fetch these sites** takes a list of domains to leave alone entirely.
-- All data lives in `./data/` (a SQLite file plus the cached images). Delete that folder for a clean slate.
+- All data lives in one folder — the per-user data folder under `npx`, `./data/` in a checkout (see [Where your library lives](#where-your-library-lives)). Delete it for a clean slate.
 
 ---
 
@@ -228,7 +244,7 @@ Settings that matter day to day are in the UI. These environment variables cover
 | Variable            | Default       | Purpose                                         |
 | ------------------- | ------------- | ----------------------------------------------- |
 | `BB_PORT`           | `8765`        | Port to listen on                               |
-| `BB_DATA_DIR`       | `./data`      | Where the database and images live              |
+| `BB_DATA_DIR`       | see above     | Where the database and images live              |
 | `BB_BOOKMARKS_PATH` | auto-detected | Point at a specific Bookmarks file              |
 | `BB_PAUSE_ENRICH`   | —             | `1` disables all outbound fetching              |
 | `BB_API_ONLY`       | —             | `1` serves only the API, leaving the UI to Vite |
@@ -239,11 +255,12 @@ The server serves the built UI whenever `web/dist` exists, so it needs no enviro
 
 ## Never starting the server by hand
 
-> **Windows only.** The autostart scripts are PowerShell. On macOS and Linux the app itself works
-> exactly the same — you just start it yourself, or write a `launchd` plist / systemd user unit
-> that runs `npm start` from the project directory. Contributions welcome.
+> **Windows, from a checkout.** The autostart scripts are PowerShell and live in the repository,
+> so they need a clone (see [Running from source](#running-from-source)). Everywhere else —
+> macOS, Linux, or Windows via `npx` — point your login-items mechanism (Task Scheduler,
+> a `launchd` plist, a systemd user unit) at `npx better-bookmark`. Contributions welcome.
 
-Run this once:
+From a checkout, run this once:
 
 ```bash
 npm run autostart:install

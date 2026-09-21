@@ -31,7 +31,9 @@ npm test
 npm run format
 ```
 
-CI runs all three on Windows, macOS and Linux against Node 20 and 22. All six legs have to pass.
+CI runs those on Windows, macOS and Linux against Node 20 and 22, then builds and runs
+`npm run smoke` — which boots the bundled server through the real CLI entry point, the same way
+`npx better-bookmark` does. All six legs have to pass.
 
 ## Tests
 
@@ -74,6 +76,50 @@ applies it. There is no ESLint — TypeScript is configured strictly enough
 
 The codebase comments the _why_, not the _what_, and there is a fair amount of hard-won
 detail in those comments about how Chrome actually behaves. Please keep that up.
+
+## How the published package is built
+
+`npm run build` does two things: Vite compiles the UI into `web/dist`, and
+`scripts/build-server.mjs` bundles the server with esbuild into `dist/server/index.js`.
+`bin/better-bookmark.mjs` is the `npx` entry point that loads it.
+
+The bundle is why the package's runtime `dependencies` are only `better-sqlite3` and `sharp`:
+everything else is compiled in. Those two stay external because they ship native binaries, and
+npm has to pick the right one for each user's OS and CPU at install time — which is also why one
+package serves Windows, macOS and Linux. If you add a runtime dependency with a native binary,
+add it to `EXTERNAL` in the build script _and_ to `dependencies`; a pure-JS one goes in
+`devDependencies` and gets bundled.
+
+The build stamps `process.env.BB_PACKAGED = '1'` into the bundle. That is what moves the
+library into the per-user data folder and the extension into a copy beside it — see
+`server/src/config.ts` for why both have to escape npm's cache.
+
+To try the package exactly as a user gets it:
+
+```bash
+npm run build
+npm pack
+```
+
+then `npm install` the resulting `.tgz` into an empty directory elsewhere and run
+`node_modules/.bin/better-bookmark`. Set `BB_DATA_DIR` to a scratch folder unless you want it
+to read and write your real library.
+
+## Releasing
+
+1. Bump `version` in `package.json` and commit.
+2. `git tag vX.Y.Z && git push origin vX.Y.Z`
+
+The `Release` workflow checks the tag matches `package.json`, then `npm publish` runs
+typecheck, tests, build and the smoke test through `prepublishOnly` before anything is uploaded,
+and a GitHub Release is created with generated notes.
+
+Publishing uses npm trusted publishing, so there is no token secret: the package on npmjs.com
+trusts `release.yml` in this repository directly. That link is set under the package's
+**Settings → Trusted Publisher** on npmjs.com.
+
+If the extension changes, bump `version` in `extension/manifest.json` too — it is reported to
+the server and shown in Settings, which is how you tell which copy a user has loaded.
 
 ## A note on scope
 

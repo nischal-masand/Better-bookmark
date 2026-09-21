@@ -1,10 +1,6 @@
 import Database from 'better-sqlite3'
 import fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { DB_PATH, ensureDirs } from '../config.ts'
-
-const here = path.dirname(fileURLToPath(import.meta.url))
+import { DB_PATH, SCHEMA_PATH, ensureDirs } from '../config.ts'
 
 ensureDirs()
 
@@ -14,7 +10,7 @@ db.pragma('journal_mode = WAL')
 db.pragma('synchronous = NORMAL')
 db.pragma('foreign_keys = ON')
 
-db.exec(fs.readFileSync(path.join(here, 'schema.sql'), 'utf8'))
+db.exec(fs.readFileSync(SCHEMA_PATH, 'utf8'))
 
 /**
  * CREATE TABLE IF NOT EXISTS leaves existing tables alone, so columns added

@@ -1,11 +1,21 @@
 import Fastify from 'fastify'
 import fastifyStatic from '@fastify/static'
-import { HOST, ICONS_DIR, PORT, SERVE_WEB, THUMBS_DIR, WEB_DIST, ensureDirs } from './config.ts'
+import {
+  HOST,
+  ICONS_DIR,
+  PORT,
+  SERVE_WEB,
+  THUMBS_DIR,
+  WEB_DIST,
+  ensureDirs,
+  syncPackagedExtension,
+} from './config.ts'
 import { apiRoutes } from './routes/api.ts'
 import { startWatching, syncNow } from './sync/service.ts'
 import { resetStalled, wakeWorker } from './enrich/worker.ts'
 
 ensureDirs()
+syncPackagedExtension()
 
 const app = Fastify({ logger: false, bodyLimit: 1024 * 1024 })
 

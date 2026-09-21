@@ -40,6 +40,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Boots the bundle a user actually downloads, on this OS, against the fixture.
+      - name: Smoke test the bundle
+        run: npm run smoke
+
   format:
     name: Format
     runs-on: ubuntu-latest

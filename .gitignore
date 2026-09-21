@@ -1,5 +1,7 @@
 node_modules/
 data/
+dist/
 web/dist/
 *.log
+*.tgz
 .DS_Store
