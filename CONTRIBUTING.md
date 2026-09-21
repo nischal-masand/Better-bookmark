@@ -118,6 +118,9 @@ Publishing uses npm trusted publishing, so there is no token secret: the package
 trusts `release.yml` in this repository directly. That link is set under the package's
 **Settings → Trusted Publisher** on npmjs.com.
 
+The accounts, npm settings, the reasoning behind this setup and troubleshooting are recorded in
+[`docs/MAINTAINING.md`](docs/MAINTAINING.md).
+
 If the extension changes, bump `version` in `extension/manifest.json` too — it is reported to
 the server and shown in Settings, which is how you tell which copy a user has loaded.
 
