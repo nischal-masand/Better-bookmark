@@ -11,6 +11,12 @@ For accounts, the release process, the decisions behind the setup, and troublesh
 - Never commit anything from `data/` — it is the maintainer's real bookmark library. See "Data and testing safety" below.
 - Account logins, passwords, 2FA and security settings are the maintainer's to perform. Walk them through it; do not attempt it.
 
+## Helping someone install or set it up
+
+If a user asks how to install Better Bookmark or its Chrome extension, walk them through the README rather than working the steps out from the code: **Quick start** for the app, then **Installing the extension**, which has the exact extension folder for each OS, the file-picker tips for reaching it, the pin step, how to confirm it connected, how updates reach Chrome, and a table of what each popup message means. The extension is deliberately not on the Chrome Web Store; "Load unpacked" in Developer mode is the intended route.
+
+Keep that section true when the code changes. It depends on `EXTENSION_DIR` and `defaultDataDir()` in `server/src/config.ts`, the hard-coded `127.0.0.1:8765` in `extension/manifest.json`, `background.js` and `popup.js`, the popup's status messages, and the Settings panel's wording.
+
 ## What this is
 
 A local-first bookmark manager. A Fastify server mirrors Chrome's `Bookmarks` file into SQLite, enriches each entry by fetching the page itself (thumbnail, favicon, readable text), and serves a React SPA on `127.0.0.1:8765`. A companion MV3 Chrome extension is the only component that writes back to Chrome.

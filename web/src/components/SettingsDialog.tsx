@@ -1,5 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Eye, FolderX, Plug, RotateCcw, ShieldCheck, Trash2, TriangleAlert, X } from 'lucide-react'
+import {
+  Check,
+  Copy,
+  Eye,
+  FolderX,
+  Plug,
+  RotateCcw,
+  ShieldCheck,
+  Trash2,
+  TriangleAlert,
+  X,
+} from 'lucide-react'
 import type { ExcludedFolder, OpsStatus, Settings, Status } from '../lib/api'
 
 interface Props {
@@ -45,6 +56,14 @@ export function SettingsDialog({
 }: Props) {
   const connected = ops?.extension.connected ?? false
   const [skipDomains, setSkipDomains] = useState(settings?.skipDomains ?? '')
+  const [copied, setCopied] = useState(false)
+
+  const copyPath = async () => {
+    if (!ops?.extensionPath) return
+    await navigator.clipboard.writeText(ops.extensionPath)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1500)
+  }
 
   useEffect(() => setSkipDomains(settings?.skipDomains ?? ''), [settings?.skipDomains])
   useEffect(() => {
@@ -153,9 +172,32 @@ export function SettingsDialog({
             {!connected && (
               <div className="mb-2 rounded-lg border border-[var(--color-line)] bg-[var(--color-canvas)] p-2.5 text-[11px] leading-relaxed text-[var(--color-ink-muted)]">
                 To install it: open <span className="font-mono">chrome://extensions</span>, turn on{' '}
-                <strong>Developer mode</strong>, choose <strong>Load unpacked</strong> and pick the{' '}
-                <span className="font-mono">extension</span> folder in this project. Until then,
-                deletes and moves are queued and applied the moment it connects.
+                <strong>Developer mode</strong>, choose <strong>Load unpacked</strong> and pick this
+                folder, then pin it from Chrome's puzzle-piece menu:
+                {/* The real path, not "the extension folder": an npx install has no project
+                    folder, and the copy it loads from lives in the per-user data directory. */}
+                {ops?.extensionPath && (
+                  <span className="mt-1.5 flex items-center gap-2">
+                    <code className="min-w-0 flex-1 truncate rounded bg-[var(--color-surface-2)] px-1.5 py-1 font-mono text-[10.5px] text-[var(--color-ink)]">
+                      {ops.extensionPath}
+                    </code>
+                    <button
+                      type="button"
+                      onClick={copyPath}
+                      className="flex shrink-0 items-center gap-1 rounded-md border border-[var(--color-line)] px-1.5 py-1 text-[10.5px] transition hover:text-[var(--color-ink)]"
+                    >
+                      {copied ? (
+                        <Check className="size-3 text-emerald-400" />
+                      ) : (
+                        <Copy className="size-3" />
+                      )}
+                      {copied ? 'Copied' : 'Copy'}
+                    </button>
+                  </span>
+                )}
+                <span className="mt-1.5 block">
+                  Until then, deletes and moves are queued and applied the moment it connects.
+                </span>
               </div>
             )}
 

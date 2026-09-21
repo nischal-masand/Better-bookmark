@@ -155,13 +155,46 @@ Nothing is lost either way. While a change is waiting, a banner at the top of th
 
 ### Installing the extension
 
+The extension is optional — the library works without it — but it is what lets deletes and moves reach Chrome, and its toolbar button is the quickest way into the library. It is not on the Chrome Web Store: it loads from a folder on your computer.
+
+**Before you start,** start Better Bookmark (`npx better-bookmark`, or `npm start` in a checkout). The extension talks to the app running on this computer, and with `npx` it is the app's first start that creates the extension folder.
+
+**1. Find the extension folder.**
+
+| How you installed                | Extension folder                                                                           |
+| -------------------------------- | ------------------------------------------------------------------------------------------ |
+| `npx better-bookmark` on Windows | `%APPDATA%\better-bookmark\extension`                                                      |
+| `npx better-bookmark` on macOS   | `~/Library/Application Support/better-bookmark/extension`                                  |
+| `npx better-bookmark` on Linux   | `~/.local/share/better-bookmark/extension` (or `$XDG_DATA_HOME/better-bookmark/extension`) |
+| A checkout of this repository    | `extension/` inside the project folder                                                     |
+
+If you set `BB_DATA_DIR`, it is the `extension` folder inside that directory instead. You can skip the table altogether: **Settings → Chrome write-back** in the app shows the exact path with a copy button.
+
+With `npx` the folder is refreshed from the installed package every time the app starts, so it survives npm clearing its cache.
+
+**2. Load it into Chrome.**
+
 1. Open `chrome://extensions`
 2. Turn on **Developer mode** (top right)
-3. **Load unpacked** → pick the extension folder
+3. Click **Load unpacked** and choose the folder. On Windows you can paste the path, `%APPDATA%` and all, into the folder box. On macOS press **Cmd+Shift+G** in the picker and paste it; the Library folder is hidden otherwise.
 
-You do not need to go looking for that folder: the banner shows its exact path with a copy button, and **Settings** shows a green dot once the extension connects. Installed through `npx`, it lives in the data folder (for example `%APPDATA%\better-bookmark\extension`), copied there on every start so it survives npm clearing its cache and stays current when you upgrade; from a checkout it is `extension/` in the project.
+**3. Pin it.** Chrome tucks new extensions behind the puzzle-piece icon in the toolbar. Click that, then the pin next to **Better Bookmark**, so its bookmark icon stays visible.
 
-Once installed, the extension's bookmark icon in Chrome's toolbar is also the quickest way in: click it and hit **Open library** (it jumps to the library tab if one is already open). Underneath, a single line shows whether Chrome and the library are in sync, with a **Sync now** link that pushes any waiting changes to Chrome and re-reads Chrome's bookmarks.
+**4. Check it worked.** Click the bookmark icon. The popup should show a green dot and "In sync with Chrome". In the app, **Settings → Chrome write-back** shows a green "Extension connected". Allow up to a minute for it to connect the first time.
+
+From then on the toolbar button is the quickest way in: **Open library** opens the library, or jumps to its tab if one is already open. Underneath, a single line shows whether Chrome and the library are in sync, with a **Sync now** link that pushes any waiting changes to Chrome and re-reads Chrome's bookmarks.
+
+**Updating.** When the app is upgraded, its next start refreshes the extension folder; in a checkout, `git pull` does. Chrome only reads that folder when it starts, though, so restart Chrome or click the reload arrow on the extension's card in `chrome://extensions`. The version number on that card shows which one Chrome is actually running.
+
+**If it does not connect**
+
+| What you see                                                   | What to do                                                                                                                                                               |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Popup says "Better Bookmark isn't running"; Open is greyed out | The app is not running. Start it and open the popup again.                                                                                                               |
+| Popup says "N changes waiting to sync" and it does not clear   | Click **Sync now**. If they stay, check **Settings → Chrome write-back**.                                                                                                |
+| Popup says "N changes couldn't reach Chrome"                   | Chrome refused them, usually because the bookmark was already changed there. **Settings → Chrome write-back** lists them with **Retry** and **Discard**.                 |
+| Settings still says "Extension not connected"                  | Check the extension is switched on in `chrome://extensions`. It only talks to `127.0.0.1:8765`, so it cannot connect if you started the app on another port (`BB_PORT`). |
+| No bookmark icon in the toolbar                                | It is installed but not pinned — see step 3.                                                                                                                             |
 
 ### Apply now — the no-extension route
 
